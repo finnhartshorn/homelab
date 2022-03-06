@@ -22,9 +22,9 @@ spec:
   upgrade:
     remediation:
       retries: 3
-  persistence:
-    defaultClassReplicaCount: 2
   values:
+    persistence:
+      defaultClassReplicaCount: 2
     ingress:
       enabled: true
       ingressClassName: "traefik"
