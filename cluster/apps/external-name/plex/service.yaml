@@ -10,6 +10,6 @@ spec:
   type: ExternalName
   ports:
     - name: external-plex
-      port: 32400
+      port: 80
       targetPort: 32400
   externalName: 192.168.1.212
