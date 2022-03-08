@@ -10,7 +10,7 @@ spec:
   type: ExternalName
   ports:
     - name: external-transmission
-      port: 80
+      port: 9091
       targetPort: 9091
   externalName: 192.168.1.212
   selector:
