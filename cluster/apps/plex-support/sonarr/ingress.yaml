@@ -1,0 +1,27 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    ingress.kubernetes.io/secure-backends: "true"
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+  labels:
+    app: sonarr-ingress
+  name: sonarr-ingress
+  namespace: plex-support
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: sonarr.finnhartshorn.com
+      http:
+        paths:
+          - backend:
+              service:
+                name: sonarr
+                port:
+                  number: 9696
+            pathType: ImplementationSpecific
+  tls:
+    - hosts:
+        - sonarr.finnhartshorn.com
+      secretName: wildcard-tls
