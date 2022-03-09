@@ -9,3 +9,4 @@ resources:
   - system-upgrade
   - longhorn
   - csi-driver-smb
+  - samba
