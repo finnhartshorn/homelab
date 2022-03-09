@@ -1,0 +1,13 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - config-map.yaml
+  - config-pvc.yaml
+  - deployment.yaml
+  - service.yaml
+  - ingress.yaml
+  - downloads-pvc.yaml
+  - movies-pvc.yaml
+  - downloads-pv.yaml
+  - movies-pv.yaml
