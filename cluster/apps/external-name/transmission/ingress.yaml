@@ -14,5 +14,6 @@ spec:
         - name: external-transmission
           kind: Service
           port: 9091
+          passHostHeader: true
   tls:
     secretName: wildcard-tls
