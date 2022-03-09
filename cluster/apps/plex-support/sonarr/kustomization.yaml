@@ -9,3 +9,5 @@ resources:
   - ingress.yaml
   - downloads-pvc.yaml
   - tv-pvc.yaml
+  - downloads-pv.yaml
+  - tv-pv.yaml
