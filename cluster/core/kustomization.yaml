@@ -10,3 +10,4 @@ resources:
   - longhorn
   - csi-driver-smb
   - samba
+  - harbor
