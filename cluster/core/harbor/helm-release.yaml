@@ -24,7 +24,8 @@ spec:
   values:
     expose:
       type: ingress
-      tls: enabled
+      tls:
+        enabled: true
       certSource: secret
       secret:
         secretName: wildcard-tls
