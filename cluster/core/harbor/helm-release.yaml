@@ -2,13 +2,13 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: habor
-  namespace: habor
+  name: harbor
+  namespace: harbor
 spec:
   interval: 5m
   chart:
     spec:
-      chart: habor
+      chart: harbor
       version: v1.8.1
       sourceRef:
         kind: HelmRepository
@@ -37,7 +37,7 @@ spec:
           annotations:
             ingress.kubernetes.io/secure-backends: "true"
             traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    externalURL: https://habor.finnhartshorn.com
+    externalURL: https://harbor.finnhartshorn.com
     persistence:
       enabled: true
       resourcePolicy: "keep"
