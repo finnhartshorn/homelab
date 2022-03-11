@@ -42,29 +42,30 @@ spec:
     persistence:
       enabled: true
       resourcePolicy: "keep"
-      registry:
-        storageClass: "longhorn"
-        accessMode: ReadWriteOnce
-        size: 5Gi
-      chartmuseum:
-        storageClass: "longhorn"
-        accessMode: ReadWriteOnce
-        size: 5Gi
-      jobservice:
-        storageClass: "longhorn"
-        accessMode: ReadWriteOnce
-        size: 1Gi
-      database:
-        storageClass: "longhorn"
-        accessMode: ReadWriteOnce
-        size: 1Gi
-      redis:
-        storageClass: "longhorn"
-        accessMode: ReadWriteOnce
-        size: 1Gi
-      trivy:
-        storageClass: "longhorn"
-        accessMode: ReadWriteOnce
-        size: 5Gi
+      persistentVolumeClaim:
+        registry:
+          storageClass: "longhorn"
+          accessMode: ReadWriteOnce
+          size: 5Gi
+        chartmuseum:
+          storageClass: "longhorn"
+          accessMode: ReadWriteOnce
+          size: 5Gi
+        jobservice:
+          storageClass: "longhorn"
+          accessMode: ReadWriteOnce
+          size: 1Gi
+        database:
+          storageClass: "longhorn"
+          accessMode: ReadWriteOnce
+          size: 1Gi
+        redis:
+          storageClass: "longhorn"
+          accessMode: ReadWriteOnce
+          size: 1Gi
+        trivy:
+          storageClass: "longhorn"
+          accessMode: ReadWriteOnce
+          size: 5Gi
     metrics:
       enabled: true
