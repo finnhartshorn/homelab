@@ -30,15 +30,15 @@ spec:
       secret:
         secretName: wildcard-tls
         notarySecretName: wildcard-tls
-        ingress:
-          hosts:
-            core: registry.finnhartshorn.com
-            notary: notary.finnhartshorn.com
-          className: traefik
-          annotations:
-            ingress.kubernetes.io/secure-backends: "true"
-            traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    externalURL: https://harbor.finnhartshorn.com
+      ingress:
+        hosts:
+          core: registry.finnhartshorn.com
+          notary: notary.finnhartshorn.com
+        className: traefik
+        annotations:
+          ingress.kubernetes.io/secure-backends: "true"
+          traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    externalURL: https://registry.finnhartshorn.com
     persistence:
       enabled: true
       resourcePolicy: "keep"
