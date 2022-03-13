@@ -1,0 +1,21 @@
+{{ ansible_managed | comment }}
+[Unit]
+Description=AdGuardHome Sync
+Documentation=https://github.com/bakito/adguardhome-sync
+After=network-online.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+ExecStart=/usr/local/bin/adguardhome-sync \
+  --config /root/.adguardhome-sync.yaml \
+  run
+
+WorkingDirectory=/root/
+SyslogIdentifier=adguardhome-sync
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

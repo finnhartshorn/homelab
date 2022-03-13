@@ -1,0 +1,52 @@
+# cron expression to run in daemon mode. (default; "" = runs only once)
+cron: "*/10 * * * *"
+
+# runs the synchronisation on startup
+runOnStart: true
+
+origin:
+  # url of the origin instance
+  url: https://192.168.1.223:3000
+  # apiPath: define an api path if other than "/control"
+  # insecureSkipVerify: true # disable tls check
+  username: finn
+  password: R}3:U3;2bZnOV+DXq}Zf9fN4h*x~
+
+# replicas instances (optional, if more than one)
+replicas:
+{% for host in vars['play_hosts'] %}
+  - url: http://{{hostvars[host].ansible_host}}:3000
+    username: finn
+    password: R}3:U3;2bZnOV+DXq}Zf9fN4h*x~
+{% endfor %}
+  # - url: http://192.168.1.221:3000
+  #   username: finn
+  #   password: R}3:U3;2bZnOV+DXq}Zf9fN4h*x~
+  # - url: http://192.168.1.222:3000
+  #   username: finn
+  #   password: R}3:U3;2bZnOV+DXq}Zf9fN4h*x~
+  #   # autoSetup: true # if true, AdGuardHome is automatically initialized.
+
+# Configure the sync API server, disabled if api port is 0
+api:
+  # Port, default 8080
+  port: 0
+  # if username and password are defined, basic auth is applied to the sync API
+  username: username
+  password: password
+
+# Configure sync features; by default all features are enabled.
+features:
+  generalSettings: true
+  queryLogConfig: true
+  statsConfig: true
+  clientSettings: true
+  services: true
+  filters: true
+  dhcp:
+    serverConfig: true
+    staticLeases: true
+  dns:
+    serverConfig: true
+    accessLists: true
+    rewrites: true

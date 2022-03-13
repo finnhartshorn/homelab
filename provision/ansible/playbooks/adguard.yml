@@ -1,0 +1,293 @@
+---
+- hosts:
+    - master
+  become: true
+  gather_facts: true
+  any_errors_fatal: true
+  pre_tasks:
+    - name: Pausing for 5 seconds...
+      pause:
+        seconds: 5
+  tasks:
+    - name: Create /etc/systemd/resolved.conf.d if it does not exist
+      ansible.builtin.file:
+        path: /etc/systemd/resolved.conf.d
+        state: directory
+        owner: root
+        group: root
+        mode: 0755
+    - name: Disable DNSStubListener
+      ansible.builtin.template:
+        force: true
+        src: resolved-adguardhome.conf.j2
+        dest: /etc/systemd/resolved.conf.d/adguardhome.conf
+        owner: root
+        group: root
+        mode: 0644
+      become: true
+    - name: Backup resolv conf
+      ansible.builtin.copy:
+        src: /etc/resolv.conf
+        dest: /etc/resolv.conf.backup
+        remote_src: true
+    - name: Remove old resolv conf
+      ansible.builtin.file:
+        path: /etc/resolv.conf
+        state: absent
+    - name: Link resolve conf
+      ansible.builtin.file:
+        src: /run/systemd/resolve/resolv.conf
+        dest: /etc/resolv.conf
+        owner: root
+        group: root
+        state: link
+    - name: Reload systemd-resolved to apply config changes
+      systemd:
+        daemon_reload: true
+        name: systemd-resolved
+        state: restarted
+    - name: Install Adguard Home
+      include_role:
+        name: onkeldom.adguard_home
+        # public: true
+      vars:
+        adguard_version: latest
+        adguard_config:
+          bind_host: "{{ ansible_host }}"
+          bind_port: 8090
+          beta_bind_port: 0
+          users:
+            - name: finn
+              password: $2a$10$UHuj9CvH98W8AuRwJIBoR.bD8RPTC4BPwYFfhBpqhwYA3Ux5pw042
+          auth_attempts: 5
+          block_auth_min: 15
+          http_proxy: ""
+          language: ""
+          rlimit_nofile: 0
+          debug_pprof: false
+          web_session_ttl: 720
+          dns:
+            bind_hosts:
+              - "{{ ansible_host }}"
+            port: 53
+            statistics_interval: 90
+            querylog_enabled: true
+            querylog_file_enabled: true
+            querylog_interval: 1
+            querylog_size_memory: 1000
+            anonymize_client_ip: true
+            protection_enabled: true
+            blocking_mode: default
+            blocking_ipv4: ""
+            blocking_ipv6: ""
+            blocked_response_ttl: 10
+            parental_block_host: family-block.dns.adguard.com
+            safebrowsing_block_host: standard-block.dns.adguard.com
+            ratelimit: 0
+            ratelimit_whitelist: []
+            refuse_any: true
+            upstream_dns:
+              - https://1.1.1.1/dns-query
+              - https://dns.google/dns-query
+            upstream_dns_file: ""
+            bootstrap_dns:
+              - 9.9.9.10
+              - 149.112.112.10
+              - 2620:fe::10
+              - 2620:fe::fe:10
+            all_servers: false
+            fastest_addr: false
+            allowed_clients: []
+            disallowed_clients: []
+            blocked_hosts:
+              - version.bind
+              - id.server
+              - hostname.bind
+            cache_size: 4194304
+            cache_ttl_min: 0
+            cache_ttl_max: 0
+            bogus_nxdomain: []
+            aaaa_disabled: false
+            enable_dnssec: false
+            edns_client_subnet: false
+            max_goroutines: 300
+            ipset: []
+            filtering_enabled: true
+            filters_update_interval: 24
+            parental_enabled: false
+            safesearch_enabled: false
+            safebrowsing_enabled: false
+            safebrowsing_cache_size: 1048576
+            safesearch_cache_size: 1048576
+            parental_cache_size: 1048576
+            cache_time: 30
+            rewrites:
+              - domain: samba.finnhartshorn.com
+                answer: 192.168.1.212
+              - domain: minecraft.finnhartshorn.com
+                answer: 192.168.1.212
+              - domain: irime.finnhartshorn.com
+                answer: 192.168.1.212
+              - domain: miriel.finnhartshorn.com
+                answer: 192.168.1.215
+              - domain: indis.finnhartshorn.com
+                answer: 192.168.1.214
+              - domain: findis.finnhartshorn.com
+                answer: 192.168.1.216
+              - domain: minio.finnhartshorn.com
+                answer: 192.168.1.217
+              - domain: hajimari.finnhartshorn.com
+                answer: 192.168.1.250
+              - domain: longhorn.finnhartshorn.com
+                answer: 192.168.1.250
+              - domain: "*.finnhartshorn.com"
+                answer: 192.168.1.250
+            blocked_services: []
+            local_domain_name: lan
+            resolve_clients: true
+            local_ptr_upstreams: []
+          tls:
+            enabled: false
+            server_name: ""
+            force_https: false
+            port_https: 9443
+            port_dns_over_tls: 853
+            port_dns_over_quic: 784
+            port_dnscrypt: 0
+            dnscrypt_config_file: ""
+            allow_unencrypted_doh: false
+            strict_sni_check: false
+            certificate_chain: ""
+            private_key: ""
+            certificate_path: ""
+            private_key_path: ""
+          filters:
+            - enabled: true
+              url: https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt
+              name: AdGuard DNS filter
+              id: 1
+            - enabled: true
+              url: https://github.com/AdAway/adaway.github.io/blob/master/hosts.txt
+              name: AdAway
+              id: 2
+            - enabled: true
+              url: https://www.malwaredomainlist.com/hostslist/hosts.txt
+              name: MalwareDomainList.com Hosts List
+              id: 4
+          whitelist_filters: []
+          user_rules:
+            - "||_kerberos._udp.finnhartshorn.com^$dnsrewrite=NOERROR;SRV;0 100 88 ad.finnhartshorn.com"
+            - "||_kerberos._tcp.finnhartshorn.com^$dnsrewrite=NOERROR;SRV;0 100 88 ad.finnhartshorn.com"
+            - "||_ldap._tcp.finnhartshorn.com^$dnsrewrite=NOERROR;SRV;0 100 389 ad.finnhartshorn.com"
+          dhcp:
+            enabled: false
+            interface_name: ""
+            dhcpv4:
+              gateway_ip: ""
+              subnet_mask: ""
+              range_start: ""
+              range_end: ""
+              lease_duration: 86400
+              icmp_timeout_msec: 1000
+              options: []
+            dhcpv6:
+              range_start: ""
+              lease_duration: 86400
+              ra_slaac_only: false
+              ra_allow_slaac: false
+          clients: []
+          log_compress: false
+          log_localtime: false
+          log_max_backups: 0
+          log_max_size: 100
+          log_max_age: 3
+          log_file: ""
+          verbose: false
+          schema_version: 10
+    - name: Install Adguard Home Sync Config
+      ansible.builtin.template:
+        force: true
+        src: adguardhome-sync.yaml.j2
+        dest: /root/.adguardhome-sync.yaml
+        owner: root
+        group: root
+        mode: 0644
+      become: true
+    # - name: Install go
+    #   package:
+    #     name:
+    #       - golang
+    # - name: Install AdguardHome Sync
+    #   command:
+    #     argv:
+    #       - go
+    #       - install
+    #       - github.com/bakito/adguardhome-sync@latest
+    #   environment:
+    #     GO111MODULE: on
+    - name: Get latest release
+      uri:
+        url: "https://api.github.com/repos/bakito/adguardhome-sync/releases/latest"
+        method: GET
+        return_content: true
+        status_code: "200"
+        body_format: json
+        validate_certs: false
+        # user: "{{ lookup('env', 'GH_USER') | default(omit) }}"
+        # password: "{{ lookup('env', 'GH_TOKEN') | default(omit) }}"
+      # environment: "{{ proxy_env }}"
+      # no_log: "{{ not lookup('env', 'MOLECULE_DEBUG') | bool }}"
+      register: _latest_adguard_sync_release
+      until: _latest_adguard_sync_release.status == 200
+      retries: 5
+      become: true
+      check_mode: false
+    - name: "set Adguard Sync version to {{ _latest_adguard_sync_release.json.tag_name[1:] }}"
+      set_fact:
+        adguard_sync_version: "{{ _latest_adguard_sync_release.json.tag_name[1:] }}"
+      become: true
+      check_mode: false
+    - name: download binary
+      get_url:
+        url: "https://github.com/bakito/adguardhome-sync/releases/download/v{{ adguard_sync_version }}/adguardhome-sync_{{ adguard_sync_version }}_linux_x86_64.tar.gz"
+        dest: "/tmp/adguardhome-sync_{{ adguard_sync_version }}_linux_x86_64.tar.gz"
+      register: _download_archive
+      until: _download_archive is succeeded
+      retries: 5
+      delay: 2
+      check_mode: false
+    - name: unpack binaries
+      unarchive:
+        src: "/tmp/adguardhome-sync_{{ adguard_sync_version }}_linux_x86_64.tar.gz"
+        dest: "/tmp"
+        remote_src: true
+      check_mode: false
+    - name: propagate binaries
+      copy:
+        src: "/tmp/adguardhome-sync"
+        dest: "/usr/local/bin/adguardhome-sync"
+        mode: 0755
+        owner: root
+        group: root
+        remote_src: true
+      become: true
+    - name: remove temporary files
+      ansible.builtin.file:
+        path: "/tmp/adguardhome-sync_{{ adguard_sync_version }}_linux_x86_64.tar.gz"
+        state: absent
+    - name: Create adguardhome-sync systemd service unit
+      template:
+        src: adguardhome-sync.service.j2
+        dest: /etc/systemd/system/adguardhome-sync.service
+        owner: root
+        group: root
+        mode: 0644
+      become: true
+    - name: Start and enable adguardhome-sync service
+      systemd:
+        daemon_reload: true
+        name: adguardhome-sync
+        state: started
+        enabled: true
+      become: true
+      delegate_to: c1
