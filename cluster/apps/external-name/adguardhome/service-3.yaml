@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    k8s-app: external-adguard-3
+  name: external-adguard-3
+  namespace: external-services
+spec:
+  type: ExternalName
+  ports:
+    - name: external-adguard-3
+      port: 8090
+      targetPort: 8090
+  externalName: 192.168.1.223
+  selector:
+    app.kubernetes.io/instance: traefik
+    app.kubernetes.io/name: traefik
