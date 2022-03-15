@@ -31,11 +31,13 @@ spec:
         storageClass: longhorn
         size: 1Gi
         mountPath: /data
+        accessMode: ReadWriteOnce
       media:
         enabled: true
         storageClass: longhorn
         size: 1Gi
         mountPath: /media
+        accessMode: ReadWriteOnce
     ingress:
       main:
         enabled: true
