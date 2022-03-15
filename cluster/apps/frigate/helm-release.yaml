@@ -1,0 +1,88 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: frigate
+  namespace: frigate
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: frigate
+      version: 8.0.0
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+      interval: 5m
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  values:
+    env:
+      TZ: "Melbourne/Australia"
+    persistence:
+      data:
+        enabled: true
+        storageClass: longhorn
+        size: 1Gi
+        mountPath: /data
+      media:
+        enabled: true
+        storageClass: longhorn
+        size: 1Gi
+        mountPath: /media
+    ingress:
+      main:
+        enabled: true
+        annotations:
+          cert-manager.io/cluster-issuer: "letsencrypt-production"
+          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+        hosts:
+          host: "frigate.${SECRET_DOMAIN}"
+          paths:
+            - path: /
+              pathType: ImplementationSpecific
+        ingressClassName: "traefik"
+        tls:
+          - secretName: wilcard-tls
+    configmap:
+      config:
+        # -- Store frigate configuration as a ConfigMap
+        enabled: true
+
+        # -- See [docs](https://blakeblackshear.github.io/frigate/) for more details.
+        # @default -- see URL to default config
+        data:
+          config.yml: |
+            mqtt:
+              host: mosquitto.mosquitto.svc.cluster.local
+              topic_prefix: frigate
+              client_id: frigate
+              # user: frigate
+              # password: ${FRIGATE_PASSWORD} #Add via secret environment variable FRIGATE_MQTT_PASSWORD
+            cameras:
+              camera1:
+                ffmpeg:
+                  inputs:
+                    - path: rtsp://admin:${CAMERA_1_PASSWORD}@192.168.10.100:554/h264_stream
+                      roles:
+                        - detect
+                        - rtmp
+                detect:
+                  width: 1920
+                  height: 1080
+              camera2:
+                ffmpeg:
+                  inputs:
+                    - path: rtsp://admin:${CAMERA_2_PASSWORD}@192.168.10.101:554/h264_stream
+                      roles:
+                        - detect
+                        - rtmp
+                detect:
+                  width: 1920
+                  height: 1080

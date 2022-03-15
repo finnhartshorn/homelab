@@ -8,3 +8,5 @@ resources:
   - system-upgrade
   - external-name
   - plex-support
+  - mosquitto
+  - frigate
