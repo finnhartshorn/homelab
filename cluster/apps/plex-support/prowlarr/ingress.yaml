@@ -8,6 +8,7 @@ metadata:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     hajimari.io/enable: "true"
     hajimari.io/icon: "cloud-download"
+    hajimari.io/appName: "Prowlarr"
   labels:
     app: prowlarr-ingress
   name: prowlarr-ingress

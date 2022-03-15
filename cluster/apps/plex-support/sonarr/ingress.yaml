@@ -7,6 +7,7 @@ metadata:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     hajimari.io/enable: "true"
     hajimari.io/icon: "television-classic"
+    hajimari.io/appName: "Sonarr"
   labels:
     app: sonarr-ingress
   name: sonarr-ingress
