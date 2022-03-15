@@ -38,6 +38,8 @@ spec:
         annotations:
           ingress.kubernetes.io/secure-backends: "true"
           traefik.ingress.kubernetes.io/router.entrypoints: websecure
+          hajimari.io/enable: "true"
+          hajimari.io/icon: "lighthouse-on"
     externalURL: https://registry.finnhartshorn.com
     persistence:
       enabled: true

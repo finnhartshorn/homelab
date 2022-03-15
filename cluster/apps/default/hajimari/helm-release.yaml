@@ -32,11 +32,16 @@ spec:
         matchNames:
           - default
           - networking
+          - plex-support
+          - frigate
       name: "you"
       customApps:
-        - name: Some External Cluster Service
-          url: http://192.168.1.100:5000
-          icon: test-tube
+        - name: Plex
+          url: plex.finnhartshorn.com
+          icon: "plex"
+        - name: Transmission
+          url: transmission.finnhartshorn.com
+          icon: briefcase-download
       groups:
         - name: Communicate
           links:

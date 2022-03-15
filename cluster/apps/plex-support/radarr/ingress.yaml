@@ -5,6 +5,8 @@ metadata:
   annotations:
     ingress.kubernetes.io/secure-backends: "true"
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    hajimari.io/enable: "true"
+    hajimari.io/icon: "filmstrip"
   labels:
     app: radarr-ingress
   name: radarr-ingress
