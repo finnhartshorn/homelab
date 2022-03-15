@@ -37,14 +37,14 @@ spec:
       name: "you"
       customApps:
         - name: Plex
-          url: plex.finnhartshorn.com
+          url: "https://plex.finnhartshorn.com"
           icon: "plex"
         - name: Transmission
-          url: transmission.finnhartshorn.com
-          icon: briefcase-download
+          url: "https://transmission.finnhartshorn.com"
+          icon: "briefcase-download"
         - name: AdguardHome
-          url: adguard.finnhartshorn.com
-          icon: marker-check
+          url: "https://adguard.finnhartshorn.com"
+          icon: "marker-check"
       groups:
         - name: Communicate
           links:

@@ -48,14 +48,16 @@ spec:
           hajimari.io/icon: "cctv"
           hajimari.io/appName: "Frigate"
         hosts:
-          -  # -- Host address. Helm template can be passed.
+          - # -- Host address. Helm template can be passed.
             host: "frigate.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: ImplementationSpecific
         ingressClassName: "traefik"
         tls:
-          - secretName: wilcard-tls
+          - hosts:
+              - "frigate.${SECRET_DOMAIN}"
+            secretName: wilcard-tls
     configmap:
       config:
         # -- Store frigate configuration as a ConfigMap
