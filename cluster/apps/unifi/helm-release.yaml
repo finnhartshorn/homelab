@@ -1,0 +1,89 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: unifi
+  namespace: unifi
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: unifi
+      version: 4.2.0
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+      interval: 5m
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  values:
+    env:
+      TZ: "Melbourne/Australia"
+    persistence:
+      data:
+        enabled: true
+        storageClass: "longhorn"
+        size: 1Gi
+        mountPath: /unifi
+        accessMode: ReadWriteOnce
+    mongodb:
+      enabled: true
+      architecture: standalone
+      auth:
+        enabled: false
+      persistence:
+        enabled: true
+        storageClass: "longhorn"
+        size: 4Gi
+    ingress:
+      main:
+        enabled: true
+        annotations:
+          cert-manager.io/cluster-issuer: "letsencrypt-production"
+          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+          hajimari.io/enable: "true"
+          hajimari.io/icon: "lan"
+          hajimari.io/appName: "Unifi"
+        hosts:
+          - # -- Host address. Helm template can be passed.
+            host: "unifi.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: ImplementationSpecific
+        ingressClassName: "traefik"
+        tls:
+          - hosts:
+              - "unifi.${SECRET_DOMAIN}"
+            secretName: wilcard-tls
+    service:
+      main:
+        enabled: true
+        type: LoadBalancer
+        externalIPs:
+          - ${METALLB_TRAEFIK_ADDR}
+        externalTrafficPolicy: Local
+      udp:
+        enabled: true
+        type: LoadBalancer
+        externalIPs:
+          - ${METALLB_TRAEFIK_ADDR}
+        externalTrafficPolicy: Local
+        ports:
+          stun:
+            enabled: true
+            port: 3478
+            protocol: UDP
+          syslog:
+            enabled: true
+            port: 5514
+            protocol: UDP
+          discovery:
+            enabled: true
+            port: 10001
+            protocol: UDP
