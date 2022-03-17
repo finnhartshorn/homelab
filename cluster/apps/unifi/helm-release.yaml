@@ -70,8 +70,6 @@ spec:
         type: LoadBalancer
         externalIPs:
           - ${METALLB_TRAEFIK_ADDR}
-        annotations:
-          traefik.ingress.kubernetes.io/service.serversscheme: https
         externalTrafficPolicy: Local
         ports:
           stun:
