@@ -47,6 +47,7 @@ spec:
         annotations:
           cert-manager.io/cluster-issuer: "letsencrypt-production"
           traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+          traefik.http.services.my-service.loadbalancer.server.scheme: "https"
           hajimari.io/enable: "true"
           hajimari.io/icon: "lan"
           hajimari.io/appName: "Unifi"
