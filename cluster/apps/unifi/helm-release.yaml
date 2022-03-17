@@ -68,6 +68,19 @@ spec:
         externalIPs:
           - ${METALLB_TRAEFIK_ADDR}
         externalTrafficPolicy: Local
+        ports:
+          stun:
+            enabled: false
+            port: 3478
+            protocol: TCP
+          syslog:
+            enabled: false
+            port: 5514
+            protocol: TCP
+          discovery:
+            enabled: false
+            port: 10001
+            protocol: TCP
       udp:
         enabled: true
         type: LoadBalancer
