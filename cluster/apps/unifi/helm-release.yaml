@@ -69,7 +69,7 @@ spec:
         enabled: true
         type: LoadBalancer
         externalIPs:
-          - ${METALLB_TRAEFIK_ADDR}
+          - 192.168.1.254
         externalTrafficPolicy: Local
         ports:
           stun:
@@ -88,7 +88,7 @@ spec:
         enabled: true
         type: LoadBalancer
         externalIPs:
-          - ${METALLB_TRAEFIK_ADDR}
+          - 192.168.1.254
         externalTrafficPolicy: Local
         ports:
           stun:
