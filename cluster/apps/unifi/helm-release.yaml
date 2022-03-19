@@ -68,9 +68,9 @@ spec:
       main:
         enabled: true
         type: LoadBalancer
-        loadBalancerIP: 192.168.1.254
+        loadBalancerIP: 192.168.1.250
         externalIPs:
-          - 192.168.1.254
+          - 192.168.1.250
         externalTrafficPolicy: Local
         ports:
           stun:
@@ -88,8 +88,9 @@ spec:
       udp:
         enabled: true
         type: LoadBalancer
+        oadBalancerIP: 192.168.1.250
         externalIPs:
-          - 192.168.1.254
+          - 192.168.1.250
         externalTrafficPolicy: Local
         ports:
           stun:
