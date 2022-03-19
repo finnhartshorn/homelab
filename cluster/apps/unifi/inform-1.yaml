@@ -1,0 +1,16 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ingressroute-unifi-commms
+  namespace: unifi
+
+spec:
+  entryPoints:
+    - unifiinform
+
+  routes:
+  - match: Host(`unifi.${SECRET_DOMAIN}`) && PathPrefix(`/inform`)
+    kind: Rule
+    services:
+    - name: unifi
+      port: 8080

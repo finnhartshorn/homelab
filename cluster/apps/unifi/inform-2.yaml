@@ -1,0 +1,16 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRouteUDP
+metadata:
+  name: ingressroute-unifi-stun
+  namespace: unifi
+
+spec:
+  entryPoints:
+    - unifistun
+
+  routes:
+  - match: Host(`unifi.${SECRET_DOMAIN}`) && PathPrefix(`/inform`)
+    kind: Rule
+    services:
+    - name: unifi-udp
+      port: 3478 

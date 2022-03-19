@@ -4,3 +4,5 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - helm-release.yaml
+  - inform-1.yaml
+  - inform-2.yaml
