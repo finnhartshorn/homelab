@@ -15,7 +15,7 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-    - host: sonarr.finnhartshorn.com
+    - host: sonarr.${SECRET_DOMAIN}
       http:
         paths:
           - backend:
@@ -26,5 +26,5 @@ spec:
             pathType: ImplementationSpecific
   tls:
     - hosts:
-        - sonarr.finnhartshorn.com
+        - sonarr.${SECRET_DOMAIN}
       secretName: wildcard-tls

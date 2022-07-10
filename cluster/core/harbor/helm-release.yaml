@@ -32,15 +32,15 @@ spec:
         notarySecretName: wildcard-tls
       ingress:
         hosts:
-          core: registry.finnhartshorn.com
-          notary: notary.finnhartshorn.com
+          core: registry.${SECRET_DOMAIN}
+          notary: notary.${SECRET_DOMAIN}
         className: traefik
         annotations:
           ingress.kubernetes.io/secure-backends: "true"
           traefik.ingress.kubernetes.io/router.entrypoints: websecure
           hajimari.io/enable: "true"
           hajimari.io/icon: "lighthouse-on"
-    externalURL: https://registry.finnhartshorn.com
+    externalURL: https://registry.${SECRET_DOMAIN}
     persistence:
       enabled: true
       resourcePolicy: "keep"

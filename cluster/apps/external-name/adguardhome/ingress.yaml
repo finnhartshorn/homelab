@@ -8,7 +8,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`adguard.finnhartshorn.com`)
+    - match: Host(`adguard.${SECRET_DOMAIN}`)
       kind: Rule
       services:
         - name: external-adguard

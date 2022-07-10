@@ -15,3 +15,6 @@ xanmanning.k3s*
 .terraform
 .terraform.tfstate*
 terraform.tfstate*
+node_modules
+package.json
+package-lock.json

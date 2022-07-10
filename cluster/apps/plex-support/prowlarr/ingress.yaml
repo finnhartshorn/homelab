@@ -16,7 +16,7 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-    - host: prowlarr.finnhartshorn.com
+    - host: prowlarr.${SECRET_DOMAIN}
       http:
         paths:
           - backend:
@@ -27,5 +27,5 @@ spec:
             pathType: ImplementationSpecific
   tls:
     - hosts:
-        - prowlarr.finnhartshorn.com
+        - prowlarr.${SECRET_DOMAIN}
       secretName: prowlarr-tls

@@ -37,13 +37,13 @@ spec:
       name: "you"
       customApps:
         - name: Plex
-          url: "https://plex.finnhartshorn.com"
+          url: "https://plex.${SECRET_DOMAIN}"
           icon: "plex"
         - name: Transmission
-          url: "https://transmission.finnhartshorn.com"
+          url: "https://transmission.${SECRET_DOMAIN}"
           icon: "briefcase-download"
         - name: AdguardHome
-          url: "https://adguard.finnhartshorn.com"
+          url: "https://adguard.${SECRET_DOMAIN}"
           icon: "marker-check"
           hajimari.io/group: "Management"
       groups:

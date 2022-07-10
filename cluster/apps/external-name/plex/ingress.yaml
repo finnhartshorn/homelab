@@ -8,7 +8,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`plex.finnhartshorn.com`)
+    - match: Host(`plex.${SECRET_DOMAIN}`)
       kind: Rule
       services:
         - name: external-plex

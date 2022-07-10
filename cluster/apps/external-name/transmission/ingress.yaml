@@ -8,7 +8,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`transmission.finnhartshorn.com`)
+    - match: Host(`transmission.${SECRET_DOMAIN}`)
       kind: Rule
       services:
         - name: external-transmission

@@ -15,7 +15,7 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-    - host: radarr.finnhartshorn.com
+    - host: radarr.${SECRET_DOMAIN}
       http:
         paths:
           - backend:
@@ -26,5 +26,5 @@ spec:
             pathType: ImplementationSpecific
   tls:
     - hosts:
-        - radarr.finnhartshorn.com
+        - radarr.${SECRET_DOMAIN}
       secretName: wildcard-tls

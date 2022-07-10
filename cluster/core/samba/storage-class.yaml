@@ -5,7 +5,7 @@ metadata:
   name: smb
 provisioner: smb.csi.k8s.io
 parameters:
-  source: "//samba.finnhartshorn.com/sambashare"
+  source: "//samba.${SECRET_DOMAIN}/sambashare"
   # if csi.storage.k8s.io/provisioner-secret is provided, will create a sub directory
   # with PV name under source
   csi.storage.k8s.io/provisioner-secret-name: "smbcreds"

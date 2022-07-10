@@ -9,10 +9,10 @@ spec:
     annotations:
       reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
       reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
-  commonName: "*.finnhartshorn.com"
+  commonName: "*.${SECRET_DOMAIN}"
   dnsNames:
-    - "*.finnhartshorn.com"
-    - "finnhartshorn.com"
+    - "*.${SECRET_DOMAIN}"
+    - "${SECRET_DOMAIN}"
   issuerRef:
     group: cert-manager.io
     kind: ClusterIssuer
